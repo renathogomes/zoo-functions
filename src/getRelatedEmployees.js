@@ -5,12 +5,15 @@ const isManager = (id) => data.employees.some((pessoa) => pessoa.managers.includ
 const getRelatedEmployees = (managerId) => {
   if (isManager(managerId)) {
     const array = data.employees.filter((pessoa) => pessoa.managers);
-    const segundaParte = array.map((elemento) => {
-      if (elemento.managers.includes(managerId)) {
-        return `${elemento.firstName} ${elemento.lastName}`;
-      }
-    });
-    return segundaParte.filter((elemento) => elemento !== undefined);
+    const segundaParte = array
+      .map(({ managers, firstName, lastName }) => {
+        if (managers.includes(managerId)) {
+          return `${firstName} ${lastName}`;
+        }
+        return undefined;
+      })
+      .filter((nome) => nome !== undefined);
+    return segundaParte;
   }
   throw new Error('O id inserido não é de uma pessoa colaboradora gerente!');
 };
