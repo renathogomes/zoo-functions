@@ -22,4 +22,10 @@ describe('Testes da função HandlerElephants', () => {
   it('não passando parametro, deve retornar underfined', () => {
     expect(handlerElephants()).toBeUnderfined();
   });
+  it('verifica se o parametro é um objeto', () => {
+    expect(handlerElephants({})).toBe('Parâmetro inválido, é necessário uma string');
+  });
+  it('a string deve ser válida', () => {
+    expect(handlerElephants('')).toBeNull();
+  });
 });
