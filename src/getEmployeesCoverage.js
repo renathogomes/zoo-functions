@@ -10,15 +10,21 @@ const getEmployees = () => data.employees.map((pessoa) => ({
   locations: getSpecies(pessoa).map((specie) => specie.location),
 }));
 
-const getId = (idx) => data.employees
-  .filter((pessoa) => pessoa.id.includes(idx))
-  .map((achado) => ({
-    id: achado.id,
-    fullName: `${achado.firstName} ${achado.lastName}`,
-    species: getSpecies(achado).map((specie) => specie.name),
-    locations: getSpecies(achado).map((specie) => specie.location),
-  }))
-  .find((elemento) => elemento);
+const getId = (idx) => {
+  const result = data.employees
+    .filter((pessoa) => pessoa.id === idx)
+    .map((achado) => ({
+      id: achado.id,
+      fullName: `${achado.firstName} ${achado.lastName}`,
+      species: getSpecies(achado).map((specie) => specie.name),
+      locations: getSpecies(achado).map((specie) => specie.location),
+    }))
+    .find((elemento) => elemento);
+  if (!result) {
+    throw new Error('Informações inválidas');
+  }
+  return result;
+};
 
 const getName = (name) => data.employees
   .filter((pessoaName) => pessoaName.firstName.includes(name))
@@ -60,7 +66,7 @@ const getEmployeesCoverage = (parametro) => {
   if (parametro.name) {
     return verificaNome(parametro.name);
   }
+  return undefined;
 };
 
-console.log(getEmployeesCoverage({ name: 'renatho' }));
 module.exports = getEmployeesCoverage;
